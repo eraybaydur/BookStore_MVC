@@ -1,10 +1,10 @@
-﻿using BookStore.DataAccess.Data;
-using BookStore.DataAccess.Repository.IRepository;
+﻿using BookStore.DataAccess.Repository.IRepository;
 using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStore.Controllers
+namespace BookStore.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -41,14 +41,14 @@ namespace BookStore.Controllers
                 TempData["success"] = "Category created successfully.";
                 return RedirectToAction("Index");
             }
-           
+
             return View(obj);
-            
+
         }
 
         public IActionResult Edit(int? id)
         {
-            if(id == null || id == 0)
+            if (id == null || id == 0)
                 return NotFound();
 
             Category? category = _unitOfWork.Category.Get(x => x.Id == id);
