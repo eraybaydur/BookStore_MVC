@@ -4,6 +4,7 @@ using BookStore.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230728111920_addCompanyTable")]
+    partial class addCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,38 +96,6 @@ namespace BookStore.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            City = "Tech City",
-                            Name = "Tech Solution",
-                            PhoneNumber = "3453535345345",
-                            PostalCode = "16800",
-                            State = "IL",
-                            StreetAdress = "123 Tech St"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Book City",
-                            Name = "Vivid Books",
-                            PhoneNumber = "1231231231",
-                            PostalCode = "23400",
-                            State = "TR",
-                            StreetAdress = "231 Book St"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            City = "Main City",
-                            Name = "Readers Club",
-                            PhoneNumber = "1231234121",
-                            PostalCode = "56540",
-                            State = "UK",
-                            StreetAdress = "999 Main St"
-                        });
                 });
 
             modelBuilder.Entity("BookStore.Models.Product", b =>
@@ -476,10 +447,6 @@ namespace BookStore.DataAccess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -492,8 +459,6 @@ namespace BookStore.DataAccess.Migrations
 
                     b.Property<string>("StreetAdress")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -558,17 +523,6 @@ namespace BookStore.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookStore.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("BookStore.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }
